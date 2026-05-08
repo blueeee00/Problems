@@ -1,4 +1,4 @@
-# A collection of my solutions to various competitive programming problems. This repository serves as a personal archive for my learning process and growth in algorithms and data structures.
+# A collection of my solutions to various competitive programming problems.
 
 ## 📝 About This Repo
 This repository is primarily for **learning purposes**. 
