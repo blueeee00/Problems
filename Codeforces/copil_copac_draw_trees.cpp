@@ -31,12 +31,48 @@ using namespace __gnu_cxx;
 #define vin(v) for (auto &x : v) cin >> x
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
+vector<int> dp;
+vector<int> id;
+vector<vector<pair<int, int>>> adj;
+
+void dfs(int x, int p) {
+    for (auto &[to, order] : adj[x]) {
+        if (to == p) continue;
+        dp[to] = dp[x] + (order < id[x]); 
+        id[to] = order;
+        dfs(to, x);
+    }
+}
+ 
 void solve() {
     int n;
     in(n);
 
-    vector<int> v(n);
-    v()
+    adj.assign(n, vector<pair<int, int>>());
+    dp.assign(n, 0);
+    id.assign(n, -1);
+
+    dp[0] = 1;
+    id[0] = -1;
+    
+    rep(i, 0, n - 1) {
+        int a, b;
+        in(a, b);
+        a--; b--;
+
+        adj[a].pb({b, i});
+        adj[b].pb({a, i});
+    }
+
+
+    dfs(0, - 1);
+ 
+    int mx = 0;
+    rep(i, 0, n) {
+        mx = max(mx, dp[i]);
+    }
+
+    out(mx);
 }
 
 signed main() {
