@@ -32,26 +32,21 @@ using namespace __gnu_cxx;
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
 void solve() {
-    int ans = 0;
-    rep(i, 0, 10) {
-        string x;
-        in(x);
+    int n;
+    in(n);
 
-        rep(j, 0, 10) {
-            if (x[j] == 'X') {
-                int dist = abs(i - 5);
-                ans += min(6 - dist, 6 - dist);
-            }
-        }
+    int mn = 1e9;
+    rep(i, 0, n) {
+        int a;
+        in(a);
+        mn = min(mn, abs(a));
     }
 
-    out(ans);
+    out(mn);
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }
