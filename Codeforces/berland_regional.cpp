@@ -33,13 +33,38 @@ using namespace __gnu_cxx;
 
 void solve() {
     int n;
-in(n);
+    in(n);
 
-    vector<int> v1(n);
-    vector<int> v2(n);
-
+    vector<int> v1(n), v2(n);
     vin(v1);
     vin(v2);
+
+    map<int, vector<int>> m;
+    rep(i, 0, n) {
+        m[v1[i]].pb(v2[i]);
+    }
+
+    vector<int> ans(n + 1, 0);
+    for (auto &[school, students]: m) {
+        sort(rall(students));
+
+        int l = sz(students);
+        
+        vector<int> pref(l + 1, 0);
+        rep(i, 0, l) {
+            pref[i + 1] = pref[i] + students[i];
+        }
+
+        rep(k, 1, l + 1) {
+            ans[k] += pref[(l / k) * k];
+        }
+    }
+
+    rep(i, 1, n + 1) {
+        cout << ans[i] << space;
+    }
+
+    out();
 }
 
 signed main() {

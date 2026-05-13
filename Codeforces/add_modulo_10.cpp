@@ -57,7 +57,7 @@ void solve() {
         bool c = false, d = false;
         rep(i, 0, n) {
             while (v[i] % 10 != 2) {
-                v[i] = nxt(v[i]);
+                v[i] = nxt(v[i]);   
             }
 
             if (v[i] % 20 == 2) {

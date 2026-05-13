@@ -33,13 +33,19 @@ using namespace __gnu_cxx;
 
 void solve() {
     int n;
-in(n);
+    in(n);
 
-    vector<int> v1(n);
-    vector<int> v2(n);
+    vector<int> v(n);
+    vin(v);
+    sort(rall(v));
+    rep(i, 1, n) {
+        if (v[i] == v[i - 1]) {
+            out(-1);
+            return;
+        }
+    }
 
-    vin(v1);
-    vin(v2);
+    vout(v);
 }
 
 signed main() {

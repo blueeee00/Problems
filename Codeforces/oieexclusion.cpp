@@ -32,14 +32,27 @@ using namespace __gnu_cxx;
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
 void solve() {
-    int n;
-in(n);
+    int n, k;
+    in(n, k);
 
-    vector<int> v1(n);
-    vector<int> v2(n);
+    vector<int> v(n);
+    vin(v);
 
-    vin(v1);
-    vin(v2);
+    int streak = 1;
+    rep(i, 1, n) {
+        if (v[i] == v[i - 1]) {
+            streak++;
+        } else {
+            streak = 1;
+        }
+
+        if (streak >= k) {
+            out("NO");
+            return;
+        }
+    }
+
+    out("YES");
 }
 
 signed main() {
