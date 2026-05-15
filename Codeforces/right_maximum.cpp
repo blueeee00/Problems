@@ -37,18 +37,20 @@ void solve() {
     int n;
     in(n);
 
-    vector<pair<int, int>> v(n);
-    rep(i, 0, n) in(v[i].ss, v[i].ff);
-    sort(all(v));
+    vector<int> v(n);
+    vin(v);
 
-    ordered_set st;
+    int l = -1e9;
     int ans = 0;
-    for (auto &p: v) {
-        ans += st.size() - st.order_of_key(p.ss); 
-        st.insert(p.ss);
+    rep(i, 0, n) {
+        if (v[i] >= l) {
+            l = v[i];
+        } else {
+            ans++;
+        }
     }
 
-    out(ans);
+    out(n - ans);
 }
 
 signed main() {

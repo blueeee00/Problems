@@ -34,18 +34,21 @@ using namespace __gnu_cxx;
 typedef __gnu_pbds::tree<int, __gnu_pbds::null_type, less<int>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
 
 void solve() {
-    int n;
-    in(n);
+    int n, x, y;
+    in(n, x, y);
 
-    vector<pair<int, int>> v(n);
-    rep(i, 0, n) in(v[i].ss, v[i].ff);
-    sort(all(v));
-
-    ordered_set st;
     int ans = 0;
-    for (auto &p: v) {
-        ans += st.size() - st.order_of_key(p.ss); 
-        st.insert(p.ss);
+    map<pair<int, int>, int> st;
+    rep(i, 0, n) {
+        int a;
+        in(a);
+
+        int d = st[{(x - (a % x)) % x, a % y}];
+        if (d) {
+            ans += d;
+        }
+
+        st[{a % x, a % y}]++;
     }
 
     out(ans);
