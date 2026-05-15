@@ -31,33 +31,37 @@ using namespace __gnu_cxx;
 #define vin(v) for (auto &x : v) cin >> x
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
+int cal(vector<int>& t) {
+    int k = sz(t);
+    sort(all(t));
+
+    int a = 0;
+    rep(i, 0, k) {
+        a += i * t[i] - (k - i - 1) * t[i];
+    }
+
+    return a;
+}
+
 void solve() {
     int n, m;
     in(n, m);
 
-    vector<int> v(n + 1);
-    rep(i, 1, n + 1) {
-        v[i] = n;
-    }
-    
-    rep(i, 0, m) {
-        int a, b;
-        in(a, b);
-        
-        if (a > b) {
-            swap(a, b);
-        }
-
-        v[a] = min(v[a], b - 1);
-    }
-    
-    rep(i, n - 1, 1) {
-        v[i] = min(v[i], v[i + 1]);
-    }
-
-    int ans = n;
+    map<int, pair<vector<int>, vector<int>>> color;
     rep(i, 0, n) {
-        ans += v[i] - i;
+        rep(j, 0, m) {
+            int a;
+            in(a);
+            
+            color[a].ff.pb(i);
+            color[a].ss.pb(j);
+        }
+    }
+
+    int ans = 0;
+    for (auto &[a, e]: color) {
+        ans += cal(e.ff);
+        ans += cal(e.ss);
     }
 
     out(ans);
@@ -65,8 +69,6 @@ void solve() {
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }

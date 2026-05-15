@@ -32,35 +32,7 @@ using namespace __gnu_cxx;
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
 void solve() {
-    int n, m;
-    in(n, m);
-
-    vector<int> v(n + 1);
-    rep(i, 1, n + 1) {
-        v[i] = n;
-    }
     
-    rep(i, 0, m) {
-        int a, b;
-        in(a, b);
-        
-        if (a > b) {
-            swap(a, b);
-        }
-
-        v[a] = min(v[a], b - 1);
-    }
-    
-    rep(i, n - 1, 1) {
-        v[i] = min(v[i], v[i + 1]);
-    }
-
-    int ans = n;
-    rep(i, 0, n) {
-        ans += v[i] - i;
-    }
-
-    out(ans);
 }
 
 signed main() {
