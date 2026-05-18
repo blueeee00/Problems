@@ -37,27 +37,28 @@ void solve() {
     int n;
     in(n);
 
-    int s = n * (n - 1) / 2;
-
-    vector<int> v(s);
+    vector<int> v(n);
     vin(v);
-    sort(all(v));
 
+    int ans = 0;
     int cur = 0;
-int i = 1;
-    vector<int> ans;
-    while (cur < s) {
-        ans.pb(v[cur]);
-        cur += n - i;
-        i++;
+    rep(i, 1, n) {
+        int old = cur;
+        
+        if (v[i] > v[i - 1]) {
+            cur = 1;
+        }
+
+        if (v[i] < v[i - 1]) {
+            cur = -1;
+        }
+
+        if (old != cur) {
+            ans++;
+        }
     }
 
-    int ss = sz(ans);
-    rep(i, 0, ss) {
-        cout << ans[i] << space;
-    }
-
-    out(ans[ss - 1]);
+    out(ans + 1);
 }
 
 signed main() {

@@ -58,7 +58,7 @@ void solve() {
         mm[name] += score;
         
         if (mm[name] >= max_score && m[name] == max_score) {
-            out(name);
+            out(name);  
             return;
         }
     }
