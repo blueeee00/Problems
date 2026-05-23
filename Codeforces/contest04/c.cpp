@@ -37,8 +37,50 @@ void solve() {
     int n;
     in(n);
 
+    vector<int> c(n);
+
+    int cnt = 0;
+    int sum = 0;
+    int t1 = 0;
     rep(i, 0, n) {
-        
+        in(c[i]);
+
+        // if more than 2 then u can do the 1 2 1 2 
+        if (c[i] >= 2) {
+            cnt++;
+            sum += c[i];
+
+            // how many times uc an do
+            t1 += (c[i] + c[i] / 2 - 1);
+        }
+    }
+
+    if (cnt == 0) {
+        out(0);
+        return;
+    }
+
+    if (cnt == 1) {
+        int d = 0;
+        rep(i, 0, n) {
+            if (c[i] >= 2) {
+                d = c[i];
+                break;
+            }
+        }
+
+        int ans = d + min(n - 1, d / 2);
+        if (ans < 3) {
+            out(0);
+        } else {
+            out(ans);
+        }
+
+    } else {
+        int t2 = sum - cnt + n;
+        int ans = min(t1, t2);
+
+        out(ans);
     }
 }
 

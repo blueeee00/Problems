@@ -42,10 +42,11 @@ void solve() {
 
     int mx = v[0];
     int k = 0;
-    rep(i, 1, n) {
+    for (int i = 1; i < n; i++) {
         if (v[i] < mx) {
             k = max(k, mx - v[i]);
         }
+    
         mx = max(mx, v[i]);
     }
     
@@ -55,7 +56,7 @@ void solve() {
     }
 
     int prev = v[0];
-    rep(i, 1, n) {
+    for (int i = 1; i < n; i++) {
         int a = v[i];
         int b = v[i] + k;
         int n = INT_MAX;

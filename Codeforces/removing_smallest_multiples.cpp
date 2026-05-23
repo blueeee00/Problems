@@ -33,61 +33,26 @@ using namespace __gnu_cxx;
 
 typedef __gnu_pbds::tree<int, __gnu_pbds::null_type, less<int>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
 
-vector<pair<int, int>> s;
 void solve() {
     int n;
-    in(n);
+    string x;
+    in(n, x);
 
-    s.clear();
-    
+    int ans = 0;
     rep(i, 0, n) {
-        int cur;
-        in(cur);
-        int d = 0;
+        if (x[i] == '1') continue;
         
-        if (cur == 1) {
-            s.pb({1, 0}); 
-            s.pb({2, 1}); 
-        } else {
-            while (cur > 1) {
-                s.pb({cur, d}); 
-                
-                if (cur % 2 == 0) {
-                    cur /= 2;
-                } else {
-                    cur += 1;
-                }
-
-                d++;
+        int cur = i;
+        while (cur < n && x[cur] != '1') {
+            if (x[cur] == '2') {
+                cur += i + 1;
+                continue;
             }
 
-            s.pb({1, d}); 
+            ans += i + 1;
+            x[cur] = '2';
+            cur += i + 1;
         }
-    }
-    
-    sort(all(s));
-    
-    int ans = INF;
-    int m = sz(s);
-    
-    int i = 0;
-    while (i < m) {
-        int j = i;
-        int cur = s[i].ff;
-        int sum = 0;
-        int cnt = 0;
-        
-        while (j < m && s[j].ff == cur) {
-            sum += s[j].ss;
-            cnt++;
-            j++;
-        }
-        
-        if (cnt == n) {
-            ans = min(ans, sum);            
-        }
-        
-        i = j;
     }
 
     out(ans);

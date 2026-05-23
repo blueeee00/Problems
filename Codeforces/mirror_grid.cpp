@@ -33,61 +33,36 @@ using namespace __gnu_cxx;
 
 typedef __gnu_pbds::tree<int, __gnu_pbds::null_type, less<int>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
 
-vector<pair<int, int>> s;
 void solve() {
     int n;
     in(n);
 
-    s.clear();
-    
-    rep(i, 0, n) {
-        int cur;
-        in(cur);
-        int d = 0;
-        
-        if (cur == 1) {
-            s.pb({1, 0}); 
-            s.pb({2, 1}); 
-        } else {
-            while (cur > 1) {
-                s.pb({cur, d}); 
-                
-                if (cur % 2 == 0) {
-                    cur /= 2;
-                } else {
-                    cur += 1;
-                }
+    vector<string> m(n);
+    vin(m);
 
-                d++;
+    int ans = 0;
+    rep(i, 0, n / 2) {
+        rep(j, 0, (n + 1) / 2) {
+            int z = 0;
+            int o = 0;
+
+            pair<int, int> positions[4] = {
+                {i, j},
+                {j, n - 1 - i},
+                {n - 1 - i, n - 1 - j},
+                {n - 1 - j, i}
+            };
+
+            for (auto [r, c] : positions) {
+                if (m[r][c] == '0') {
+                    z++;
+                } else {
+                    o++;
+                }
             }
 
-            s.pb({1, d}); 
+            ans += min(z, o);
         }
-    }
-    
-    sort(all(s));
-    
-    int ans = INF;
-    int m = sz(s);
-    
-    int i = 0;
-    while (i < m) {
-        int j = i;
-        int cur = s[i].ff;
-        int sum = 0;
-        int cnt = 0;
-        
-        while (j < m && s[j].ff == cur) {
-            sum += s[j].ss;
-            cnt++;
-            j++;
-        }
-        
-        if (cnt == n) {
-            ans = min(ans, sum);            
-        }
-        
-        i = j;
     }
 
     out(ans);
