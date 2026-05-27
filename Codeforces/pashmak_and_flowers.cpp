@@ -31,35 +31,35 @@ using namespace __gnu_cxx;
 #define vin(v) for (auto &x : v) cin >> x
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
-typedef __gnu_pbds::tree<int, __gnu_pbds::null_type, less<int>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef tree<int, int, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, a, b;
-    in(n, a, b);
-    
-    vector<int> v(n + 1, 0);
-    rep(i, 1, n + 1) {
-        in(v[i]);
-    }
-    
-    int ans = 0;
-    rep(i, 1, n + 1) {
-        int dist = v[i] - v[i - 1];
-        int rem = n - i;
+    int n;
+    in(n);
 
-        int bc = b * dist;
-        int ac = a * dist;
-        int cost = b * rem * dist;
-        ans += bc + min(ac, cost);
+    int mn = 1e9;
+    int mx = 0;
+    map<int, int> m;
+    rep(i, 0, n) {
+        int a;
+        in(a);
+
+        mn = min(mn, a);
+        mx = max(mx, a);
+
+        m[a]++;
     }
-    
-    out(ans);
+
+    if (sz(m) == 1) {
+        out(0, n * (n - 1) / 2);
+    } else {
+        out(mx - mn, m[mn] * m[mx]);
+    }
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }

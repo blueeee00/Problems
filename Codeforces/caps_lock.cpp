@@ -34,32 +34,33 @@ using namespace __gnu_cxx;
 typedef __gnu_pbds::tree<int, __gnu_pbds::null_type, less<int>, __gnu_pbds::rb_tree_tag, __gnu_pbds::tree_order_statistics_node_update> ordered_set;
 
 void solve() {
-    int n, a, b;
-    in(n, a, b);
-    
-    vector<int> v(n + 1, 0);
-    rep(i, 1, n + 1) {
-        in(v[i]);
-    }
-    
-    int ans = 0;
-    rep(i, 1, n + 1) {
-        int dist = v[i] - v[i - 1];
-        int rem = n - i;
+    string x;
+    in(x);
 
-        int bc = b * dist;
-        int ac = a * dist;
-        int cost = b * rem * dist;
-        ans += bc + min(ac, cost);
-    }
+    int n = sz(x);
     
-    out(ans);
+    string ans = "";
+    ans += isupper(x[0]) ? tolower(x[0]) : toupper(x[0]);
+
+    bool ok = true;
+
+    rep(i, 1, n) {
+        if (islower(x[i])) {
+            ok = false;
+        } else {
+            ans += tolower(x[i]);
+        }
+    }
+
+    if (ok) {
+        out(ans);
+    } else {
+        out(x);
+    }
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }
