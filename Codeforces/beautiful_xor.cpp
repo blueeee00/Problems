@@ -35,43 +35,36 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, t;
-    in(n, t);
+    int a, b;
+    in(a, b);
 
-    vector<int> v(n);
-    int sum = 0;
-    
-    rep(i, 0, n) {
-        in(v[i]);
-        sum += v[i];
-    }
-
-    if (sum < t) {
+    if (__builtin_clzll(a) > __builtin_clzll(b)) {
         out(-1);
-        return;
-    }
-
-    if (sum == t) {
+    } else if (a == b) {
         out(0);
-        return;
-    }
+    } else {
+        vector<int> v;
 
-    int ans = 1e9;
-    queue<int> q;
-    rep(i, 0, n) {
-        if (v[i] == 1 && sz(q) >= t) {
-            int idx = q.front();
-            q.pop();
+        rep(i, 0, 61) {
+            int x = (1LL << i);
 
-            ans = min(ans, abs(idx - i) + 1);
+            if (x <= a && (a & x) == 0) {
+                a += x;
+                v.pb(x);
+            }
         }
 
-        if (v[i] == 1) {
-            q.push(i);
+        rep(i, 0, 61) {
+            int x = (1LL << i);
+        
+            if (x <= a && (b & x) == 0) {
+                v.pb(x);
+            }
         }
-    }
 
-    out(n - ans);
+        out(sz(v));
+        vout(v);
+    }
 }
 
 signed main() {
