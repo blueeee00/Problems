@@ -36,7 +36,7 @@ typedef tree<int, int, less<int>, rb_tree_tag, tree_order_statistics_node_update
 
 void solve() {
     int n, k, m;
-    in(n, k, m);
+    in(n, m, k);
 
     vector<int> v(n);
     vin(v);
@@ -45,11 +45,13 @@ void solve() {
     rep(i, 0, m) {
         int a, b, c;
         in(a, b, c);
+        a--;
+        b--;
 
         o.pb({a, b, c});
     }
 
-    vector<int> s(n + 1);
+    vector<int> s(m + 1, 0);
     rep(i, 0, k) {
         int l, r;
         in(l, r);
@@ -60,7 +62,7 @@ void solve() {
         s[r + 1]--;
     }
 
-    vector<int> pref(n + 2);
+    vector<int> pref(n + 2, 0);
 
     int cur = 0;
     rep(i, 0, m) {
@@ -71,7 +73,7 @@ void solve() {
 
     int c = 0;
     rep(i, 0, n) {
-        c += pref[i + 1];
+        c += pref[i];
         cout << v[i] + c << space;
     }
 }
