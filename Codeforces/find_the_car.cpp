@@ -52,7 +52,7 @@ void solve() {
     rep(i, 0, m) {
         int q;
         in(q);
-
+        https://open.spotify.com/track/4ydmav4vl7hebadtfZtMrg?si=cc0a4311da154c50
         if (q == 0) {
             ans[i] = 0;
             continue;

@@ -56,6 +56,7 @@ signed main() {
     vector<int> v;
     v.pb(0);
 
+    // 40205 is enough
     rep(i, 1, 80008) {
         if (check(i)) {
             v.pb(i);

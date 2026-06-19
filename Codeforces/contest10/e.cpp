@@ -43,11 +43,12 @@ void solve() {
     
     int best = 0;
     int second_best = 0;
+    
     rep(i, 0, n) {
-        
+
     }
 
-    out(second_best)
+    out(second_best);
 }
 
 signed main() {

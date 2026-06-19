@@ -34,14 +34,44 @@ using namespace __gnu_cxx;
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
 typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
+bool primes[1000005];
+void cal() {
+    primes[0] = primes[1] = true;
+    for (int i = 2; i * i <= 1000000; i++) {
+        if (!primes[i]) {
+            for (int j = i * i; j <= 1000000; j += i) {
+                primes[j] = true;
+            }
+        }
+    }
+}
+
 void solve() {
     int n;
     in(n);
-    
+
+    int cnt = 1;
+    int last = 1;
+    int ans = 1;
+    rep(i, 2, 1000001) {
+        if (!primes[i] && i - last >= n) {
+            ans *= i;
+            last = i;
+            cnt++;
+        }
+
+        if (cnt >= 3) {
+            break;
+        }
+    }
+
+    out(ans);
 }
 
 signed main() {
     fastIO;
+    cal();
+
     int t;
     cin >> t;
     while (t--) solve();

@@ -28,16 +28,59 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+
+int cal1(int n) {
+    if (n < 0) return 0;
+
+    int rem = n % 4;
+    if (rem == 0) return n;
+    if (rem == 1) return 1;
+    if (rem == 2) return n + 1;
+    return 0;
+}
+
+int cal2(int l, int r) {
+    if (l > r) return 0;
+    return cal1(r) ^ cal1(l - 1);
+}
 
 void solve() {
-    int n;
-    in(n);
+    int l, r, i, k;
+    in(l, r, i, k);
+
+    int i2 = 1LL << i;
+    int total = cal2(l, r);
     
+    int mn = 0;
+    if (l - k > 0) {
+        mn = (l - k + i2 - 1) / i2;
+    }
+
+    int mx = -1;
+    if (r - k >= 0) {
+        mx = (r - k) / i2;
+    }
+
+    int un = 0;
+    if (mn <= mx) {
+        int cnt = mx - mn + 1;
+
+        int j = cal2(mn, mx);
+        j <<= i;
+
+        if (cnt % 2 != 0) {
+            j ^= k;
+        }
+
+        un = j;
+    }
+
+    out(total ^ un);
 }
 
 signed main() {

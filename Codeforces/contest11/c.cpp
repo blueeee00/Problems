@@ -28,17 +28,47 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
     int n;
     in(n);
-    
+
+    vector<int> v(n);
+    vin(v);
+
+    int ans = 0;
+    int last = 0;
+    bool ok = false;
+    rep(i, 1, n) {
+        if (!ok && v[i] < v[i - 1]) {
+            ans += v[i - 1];
+            ok = true;
+        }
+
+        if (ok && ans <= v[i]) {
+            ok = false;
+            ans = 0;
+        }
+
+        if (ok) {
+            ans += v[i];
+        }
+    }
+
+    if (ans == 0) {
+        out(v[n - 1]);
+    } else {
+        out(ans);
+    }
 }
+
+
+// 28
 
 signed main() {
     fastIO;

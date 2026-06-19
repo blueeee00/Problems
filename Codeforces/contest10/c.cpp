@@ -66,7 +66,3 @@ signed main() {
     while (t--) solve();
     return 0;
 }
-
-    // if (x > max(a, b)) {
-    //     ans = min(ans, 2LL);
-    // }

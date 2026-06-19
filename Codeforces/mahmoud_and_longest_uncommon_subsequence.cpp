@@ -32,18 +32,21 @@ using namespace __gnu_cxx;
 #define vout(v) for (auto &x : v) cout << x << space; cout << endl
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, int, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n;
-    in(n);
-    
+    string a, b;
+    in(a, b);
+
+    if (a == b) {
+        out(-1);
+    } else {
+        out(max(sz(a), sz(b)));
+    }
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }

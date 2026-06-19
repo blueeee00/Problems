@@ -28,22 +28,61 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, string, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
     int n;
     in(n);
-    
+
+    vector<int> v(n);
+    vin(v);
+
+    int sum = 0;
+    int m = 0;
+
+    rep(i, 0, n) {
+        sum += v[i];
+
+        int cur = (sum + i) / (i + 1);
+        m = max(m, cur);
+    }
+
+    int q;
+    in(q);
+
+    while (q--) {
+        int a;
+        in(a);
+
+        if (a < m) {
+            out(-1);
+            continue;
+        }
+
+        int l = 0;
+        int h = n;
+        int ans = n;
+        while (l <= h) {
+            int mid = l + (h - l) / 2;
+
+            if (mid * a >= sum) {
+                ans = mid;
+                h = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+
+        out(ans);
+    }
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }

@@ -44,7 +44,7 @@ void solve() {
     int cnt = 0;
     rep(i, n, 0) {
         int cur = (cnt % 2 == 0) ? a[i] : -a[i];
-
+         
         if (cur > 0) {
             ans.push_back(i + 1);
             cnt++;
