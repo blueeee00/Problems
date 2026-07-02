@@ -58,7 +58,7 @@ void solve() {
             }
 
             dmg += cur;
-        }
+        } 
 
         if (ok) {
             high = mid - 1LL;
