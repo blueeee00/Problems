@@ -9,6 +9,8 @@ using namespace std;
 #define vout(v) for (auto &x : v) cout << x << ' '; cout << endl
 
 void Solve() {
+    // ts is not mine
+
     ll n;
     cin >> n;
     vector<ll> a(n), b(n), diff(n, 0);
