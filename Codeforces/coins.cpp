@@ -38,12 +38,17 @@ void solve() {
     int n, k;
     in(n, k);
 
-    int b = n % k;
-    if (b == 0 || b % 2 == 0 || n % 2 == 0) {
+    if (n >= 0 && n % 2 == 0) {
         out("YES");
-    } else {
-        out("NO");
+        return;
     }
+
+    if (n - k >= 0 && (n - k) % 2 == 0) {
+        out("YES");
+        return;
+    }
+
+    out("NO");
 }
 
 signed main() {

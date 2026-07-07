@@ -38,39 +38,42 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    string x;
-    in(x);
+    int n;
+    in(n);
 
-    int n = sz(x);
-    x += '2';
+    vt<int> v(n);
+    vin(v);
 
-    vt<int> v;
-    int cur = 0;
+    vt<vt<int>> cnt(n + 1, vt<int>(4, 0));
+    vt<int> c(n + 1, 0);
     rep(i, 1, n + 1) {
-        cur++;
+        cnt[i][1] = cnt[i - 1][1];
+        cnt[i][2] = cnt[i - 1][2];
+        cnt[i][3] = cnt[i - 1][3];
 
-        if (x[i] != x[i - 1]) {
-            if (cur > 1) {
-                v.pb(cur);
-            }
+        cnt[i][v[i - 1]]++;
+        c[i] = (2 * cnt[i][3]) - i;
+    }
 
-            cur = 0;
+    vt<int> s(n + 1, 0);
+    s[n - 1] = c[n - 1];
+    for (int i = n - 2; i >= 2; i--) {
+        s[i] = min(s[i + 1], c[i]);
+    }
+
+    bool ok = false;
+    rep(i, 1, n - 1) {
+        if (2 * cnt[i][1] >= i && s[i + 1] <= c[i]) {
+            ok = true;
+            break;
         }
     }
 
-    int ans1 = 0;
-    int ans2 = 1;
-
-    rep(i, 0, sz(v)) {
-        ans1 += v[i] - 1;
-        ans2 = (ans2 * v[i]) % MOD2;
+    if (ok) {
+        out("YES");
+    } else {
+        out("NO");
     }
-
-    rep(i, 1, ans1 + 1) {
-        ans2 = (ans2 * i) % MOD2;
-    }
-
-    out(ans1, ans2);
 }
 
 signed main() {
