@@ -38,35 +38,51 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, m, k;
-    in(n, m, k);
+    int n;
+    in(n);
 
-    multiset<int> ms;
-    rep(i, 0, n) {
-        int a;
-        in(a);
+    string x;
+    in(x);
 
-        ms.insert(a);
-    }
+    int cnt = INF;
+    for (char c = 'a'; c <= 'z'; c++) {
+        int l = 0;
+        int r = n - 1;
+        int tmp = 0;
 
-    vt<int> v(m);
-    vin(v);
-    sort(all(v));
+        bool ok = true;
+        while (l <= r) {
+            if (x[l] == x[r]) {
+                l++;
+                r--;
+            } else if (x[l] == c) {
+                tmp++;
+                l++;
+            } else if (x[r] == c) {
+                tmp++;
+                r--;
+            } else {
+                ok = false;
+                break;
+            }
+        }
 
-    int ans = 0;
-    for (int a: v) {
-        auto l = ms.lb(a - k);
-        if (l != ms.end() && *l <= a + k) {
-            ans++;
-            ms.erase(l);
+        if (ok) {
+            cnt = min(cnt, tmp);
         }
     }
 
-    out(ans);
+    if (cnt == INF) {
+        out(-1);
+    } else {
+        out(cnt);
+    }
 }
 
 signed main() {
     fastIO;
-    solve();
+    int t;
+    cin >> t;
+    while (t--) solve();
     return 0;
 }
