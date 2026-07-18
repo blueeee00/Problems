@@ -41,30 +41,26 @@ void solve() {
     int n, k;
     in(n, k);
 
-    multiset<int> s;
+    multiset<pair<int, int>> ms;
     rep(i, 0, n) {
         int a;
         in(a);
 
-        s.insert(a);
+        ms.insert({a, i + 1});
     }
 
-    int ans = 0;
-    while (!s.empty()) {
-        int x = *s.begin();
-        s.erase(s.begin());
+    while (!ms.empty()) {
+        pair<int, int> cur = *ms.begin();
+        ms.erase(ms.begin());
 
-        auto it = s.upper_bound(k - x);
-        if (it != s.begin()) {
-            it--;
-            s.erase(it);
+        auto it = ms.ub(mp(k - cur.ff, -INF));
+        if (it != ms.end() && (*it).ff + cur.ff == k) {
+            out(cur.ss, (*it).ss);
+            return;
         }
-
-        ans++;
     }
 
-
-    out(ans);
+    out("IMPOSSIBLE");
 }
 
 signed main() {
