@@ -38,31 +38,36 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, k;
-    in(n, k);
+    int n, k, x;
+    in(n, k, x);
 
-    vt<int> v(n);
-    vin(v);
-
-    int ans = 0;
-    for (int i = n - 1; i >= 0; i--) {
-        int mx = 0;
-        int used = 0;
-        for (int j = i; j >= 0; j--) {
-            if (v[j] > v[i]) break;
-
-            int use = (v[i] - v[j]) + (i - j);
-            if (used + use > k) break;
-
-            used += use;
-            mx = max(mx, v[i] + (i - j));
+    if (x != 1) {
+        out("YES");
+        out(n);
+        rep(i, 0, n) {
+            cout << 1 << space;
         }
 
-        ans = max(ans, mx);
-        out(ans, i);
-    }
+        out();
 
-    out(ans);
+    } else if (k == 1 || (k == 2 && n % 2 == 1)) {
+        out("NO");
+    } else {
+        out("YES");
+        out(n / 2);
+
+        if (n % 2 == 1) {
+            cout << 3 << space;
+        } else {
+            cout << 2 << space;
+        }
+
+        rep(i, 0, (n / 2 - 1)) {
+            cout << 2 << space;
+        }
+
+        out();
+    }
 }
 
 signed main() {
