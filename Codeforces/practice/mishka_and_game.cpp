@@ -21,6 +21,9 @@ using namespace __gnu_cxx;
 #define lb lower_bound
 #define ub upper_bound
 #define sz(x) (int)(x).size()
+#define rv reverse
+#define vt vector
+#define str string
 
 #define MOD1 1000000007
 #define MOD2 998244353
@@ -28,42 +31,41 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
-const int score[10][10] = {
-	{1,1,1,1,1,1,1,1,1,1},
-	{1,2,2,2,2,2,2,2,2,1},
-	{1,2,3,3,3,3,3,3,2,1},
-	{1,2,3,4,4,4,4,3,2,1},
-	{1,2,3,4,5,5,4,3,2,1},
-	{1,2,3,4,5,5,4,3,2,1},
-	{1,2,3,4,4,4,4,3,2,1},
-	{1,2,3,3,3,3,3,3,2,1},
-	{1,2,2,2,2,2,2,2,2,1},
-	{1,1,1,1,1,1,1,1,1,1}
-};
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int ans = 0;
-    rep(i, 0, 10) {
-        string x;
-        in(x);
+    int n;
+    in(n);
 
-        rep(j, 0, 10) {
-            if (x[j] == 'X') {
-                ans += score[i][j];
-            }
+    int a = 0;
+    int b = 0;
+
+    rep(i, 0, n) {
+        int x, y;
+        in(x, y);
+
+        if (x > y) {
+            a++;
+        } else if (x < y) {
+            b++;
         }
     }
 
-    out(ans);
+    if (a == b) {
+        out("Friendship is magic!^^");
+    } else if (a > b) {
+        out("Mishka");
+    } else {
+        out("Chris");
+    }
 }
 
 signed main() {
     fastIO;
-    int t;
-    cin >> t;
-    while (t--) solve();
+    solve();
     return 0;
 }
