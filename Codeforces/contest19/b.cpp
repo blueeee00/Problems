@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -22,6 +21,9 @@ using namespace __gnu_cxx;
 #define lb lower_bound
 #define ub upper_bound
 #define sz(x) (int)(x).size()
+#define rv reverse
+#define vt vector
+#define str string
 
 #define MOD1 1000000007
 #define MOD2 998244353
@@ -29,35 +31,41 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, int, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, t;
-    in(n, t);
+    int n;
+    string x;
+    in(n, x);
 
-    vector<int> v(n);
+    int cnt = 1;
     rep(i, 1, n) {
-        in(v[i]);
+        if (x[i] != x[i - 1]) {
+            cnt++;
+        }
     }
 
-    int cur = 1;
-    while (cur < t) {
-        cur += v[cur];
+    int mx = 0;
+    rep(i, 1, n - 1) {
+        if (x[i] != x[i - 1] && x[i] != x[i + 1]) {
+            if (x[i - 1] == x[i + 1]) {
+                mx = max(mx, 2LL);
+            } else {
+                mx = max(mx, 1LL);
+            }
+        }
     }
 
-    if (cur == t) {
-        out("YES");
-    } else {
-        out("NO");
-    }
+    out(cnt - mx);
 }
-
 signed main() {
     fastIO;
-    solve();
+    int t;
+    cin >> t;
+    while (t--) solve();
     return 0;
 }

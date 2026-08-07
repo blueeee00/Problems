@@ -38,53 +38,71 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, q;
-    in(n, q);
+    int n;
+    in(n);
 
-    string x, y;
-    in(x, y);
+    vt<pair<int, int>> v(n);
+    set<int> s;
+    map<int, int> m;
 
-    vt<vt<int>> pref(n, vt<int>(4));
     rep(i, 0, n) {
-        if (i != 0) {
-            pref[i] = pref[i - 1];
-        }
+        int a;
+        in(a);
 
-        if (x[i] == '1' && y[i] == '1') {
-            pref[i][0]++;
-        } else if (x[i] == '1' && y[i] == '0') {
-            pref[i][1]++;
-        } else if (x[i] == '0' && y[i] == '1') {
-            pref[i][2]++;
-        } else {
-            pref[i][3]++;
+        m[a]++;
+        v[i] = {a, i};
+    }
+
+    sort(all(v));
+
+    if (v[0].ff != 0) {
+        out(-1);
+        return;
+    }
+
+    vt<int> ans(n, -INF);
+
+    int st = 0;
+    int sum = 0;
+    int mx = 0;
+    rep(i, 1, sz(v)) {
+        int cur = v[i].ff;
+        int last = v[i - 1].ff;
+
+        if (cur != last) {
+            int q = (cur - sum) / (i - st);
+            int r = (cur - sum) % (i - st);
+
+            if (r != 0) {
+                out(-1);
+                return;
+            }
+            
+            if (mx >= q + r) {
+                out(-1);
+                return;
+            }
+
+            rep(j, st, i) {
+                ans[v[j].ss] = q + r;
+                sum += q + r;
+                
+                r--;
+                r = max(r, 0LL);
+            }
+            
+            mx = max(mx, q + r);
+            st = i;
         }
     }
 
-    while (q--) {
-        int l, r;
-        in(l, r);
-        l--; r--;
-
-        int mn = min(pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]), pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]));
-        if (pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) == pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            out("YES");
-            continue;
-        }
-
-        int b = 0;
-        if (mn < pref[r][1] - (l == 0 ? 0 : pref[l - 1][1])) {
-            b += pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) - mn;
-        } else if (mn < pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            b += pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]) - mn;
-        }
-
-        if (b > (pref[r][3] - (l == 0 ? 0 : pref[l - 1][3])) + (pref[r][0] - (l == 0 ? 0 : pref[l - 1][0]))) {
-            out("NO");
-        } else {
-            out("YES");
+    rep(i, 0, n) {
+        if (ans[i] == -INF) {
+            ans[i] = mx + 1;
         }
     }
+
+    vout(ans);
 }
 
 signed main() {

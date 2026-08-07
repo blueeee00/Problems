@@ -1,4 +1,3 @@
-
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -22,6 +21,9 @@ using namespace __gnu_cxx;
 #define lb lower_bound
 #define ub upper_bound
 #define sz(x) (int)(x).size()
+#define rv reverse
+#define vt vector
+#define str string
 
 #define MOD1 1000000007
 #define MOD2 998244353
@@ -29,35 +31,55 @@ using namespace __gnu_cxx;
 
 #define in(...) [&](auto&... args){ (cin >> ... >> args); }(__VA_ARGS__)
 #define out(...) [&](auto&&... args){ int n_ = 0; ((cout << (n_++ ? " " : "") << args), ...); cout << endl; }(__VA_ARGS__)
-#define vin(v) for (auto &x : v) cin >> x
-#define vout(v) for (auto &x : v) cout << x << space; cout << endl
+#define vin(...) [&](auto&... vecs){ (( [&](){ for(auto &x : vecs) cin >> x; }() ), ...); }(__VA_ARGS__)
+#define vout(...) [&](auto&&... vecs){ (( [&](){ int n_ = 0; for(auto &x : vecs) cout << (n_++ ? " " : "") << x; cout << "\n"; }() ), ...); }(__VA_ARGS__)
 
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_set;
-typedef tree<int, int, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
+typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, t;
-    in(n, t);
+    int n;
+    in(n);
 
-    vector<int> v(n);
-    rep(i, 1, n) {
-        in(v[i]);
+    vt<int> val(n);
+    int sum = 0;
+    vin(val);
+
+    rep(i, 0, n) {
+        sum += val[i];
     }
 
-    int cur = 1;
-    while (cur < t) {
-        cur += v[cur];
+    vt<int> v1(n, 0);
+    rep(i, 0, n - 1) {
+        int a, b;
+        in(a, b);
+
+        a--; b--;
+        v1[a]++;
+        v1[b]++;
     }
 
-    if (cur == t) {
-        out("YES");
-    } else {
-        out("NO");
+    vt<int> v2;
+    rep(i, 0, n) {
+        rep(j, 0, v1[i] - 1) {
+            v2.pb(val[i]);
+        }
     }
+
+    cout << sum << space;
+    sort(rall(v2));
+    rep(i, 0, sz(v2) ) {
+        sum += v2[i];
+        cout << sum << space;
+    }
+
+    out();
 }
 
 signed main() {
     fastIO;
-    solve();
+    int t;
+    cin >> t;
+    while (t--) solve();
     return 0;
 }

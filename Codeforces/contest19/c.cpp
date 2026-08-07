@@ -38,53 +38,55 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, q;
-    in(n, q);
+    int n;
+    in(n);
 
     string x, y;
     in(x, y);
 
-    vt<vt<int>> pref(n, vt<int>(4));
+    int x1 = 0;
+    int x2 = 0;
+    int y1 = 0;
+    int y2 = 0;
+    vt<vt<int>> pos1(2);
+    vt<vt<int>> pos2(2);
     rep(i, 0, n) {
-        if (i != 0) {
-            pref[i] = pref[i - 1];
+        if (x[i] == '1') {
+            if (i % 2 == 0) {
+                pos1[0].pb(i);
+                x1++;
+            } else {
+                pos1[1].pb(i);
+                x2++;
+            }
         }
 
-        if (x[i] == '1' && y[i] == '1') {
-            pref[i][0]++;
-        } else if (x[i] == '1' && y[i] == '0') {
-            pref[i][1]++;
-        } else if (x[i] == '0' && y[i] == '1') {
-            pref[i][2]++;
-        } else {
-            pref[i][3]++;
-        }
-    }
-
-    while (q--) {
-        int l, r;
-        in(l, r);
-        l--; r--;
-
-        int mn = min(pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]), pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]));
-        if (pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) == pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            out("YES");
-            continue;
-        }
-
-        int b = 0;
-        if (mn < pref[r][1] - (l == 0 ? 0 : pref[l - 1][1])) {
-            b += pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) - mn;
-        } else if (mn < pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            b += pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]) - mn;
-        }
-
-        if (b > (pref[r][3] - (l == 0 ? 0 : pref[l - 1][3])) + (pref[r][0] - (l == 0 ? 0 : pref[l - 1][0]))) {
-            out("NO");
-        } else {
-            out("YES");
+        if (y[i] == '1') {
+            if (i % 2 == 0) {
+                y1++;
+                pos2[0].pb(i);
+            } else {
+                pos2[1].pb(i);
+                y2++;
+            }
         }
     }
+
+    if (x1 != y1 || x2 != y2) {
+        out(-1);
+        return;
+    }
+
+    int cnt = 0;
+    rep(i, 0, sz(pos1[0])) {
+        cnt += abs(pos1[0][i] - pos2[0][i]) / 2;
+    }
+
+    rep(i, 0, sz(pos1[1])) {
+        cnt += abs(pos2[1][i] - pos1[1][i]) / 2;
+    }
+
+    out(cnt);
 }
 
 signed main() {

@@ -38,53 +38,56 @@ typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_
 typedef tree<int, null_type, less<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_map;
 
 void solve() {
-    int n, q;
-    in(n, q);
+    int n;
+    in(n);
 
-    string x, y;
-    in(x, y);
+    string x;
+    in(x);
 
-    vt<vt<int>> pref(n, vt<int>(4));
+    int rcnt0 = 0;
+    int rcnt1 = 0;
+    int cnt0 = 0;
+    int cnt1 = 0;
+
     rep(i, 0, n) {
-        if (i != 0) {
-            pref[i] = pref[i - 1];
+        if (i != 0 && x[i] == x[i - 1]) {
+            if (x[i] == '0') {
+                rcnt0++;
+            } else {
+                rcnt1++;
+            }
         }
 
-        if (x[i] == '1' && y[i] == '1') {
-            pref[i][0]++;
-        } else if (x[i] == '1' && y[i] == '0') {
-            pref[i][1]++;
-        } else if (x[i] == '0' && y[i] == '1') {
-            pref[i][2]++;
+        if (x[i] == '0') {
+            cnt0++;
         } else {
-            pref[i][3]++;
+            cnt1++;
         }
     }
 
-    while (q--) {
-        int l, r;
-        in(l, r);
-        l--; r--;
-
-        int mn = min(pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]), pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]));
-        if (pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) == pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            out("YES");
-            continue;
-        }
-
-        int b = 0;
-        if (mn < pref[r][1] - (l == 0 ? 0 : pref[l - 1][1])) {
-            b += pref[r][1] - (l == 0 ? 0 : pref[l - 1][1]) - mn;
-        } else if (mn < pref[r][2] - (l == 0 ? 0 : pref[l - 1][2])) {
-            b += pref[r][2] - (l == 0 ? 0 : pref[l - 1][2]) - mn;
-        }
-
-        if (b > (pref[r][3] - (l == 0 ? 0 : pref[l - 1][3])) + (pref[r][0] - (l == 0 ? 0 : pref[l - 1][0]))) {
-            out("NO");
-        } else {
-            out("YES");
-        }
+    if (abs(cnt0 - cnt1) > 2) {
+        cout << -1 << "\n";
+        return;
     }
+
+
+    if (rcnt0 == 0 && rcnt1 == 0) {
+        out(0);
+        return;
+    }
+
+    if (rcnt0 > rcnt1) {
+        rcnt1 = rcnt0 - 1;
+    } else if (rcnt0 < rcnt1) {
+        rcnt0 = rcnt1 - 1;
+    }
+
+    if (cnt0 < rcnt0 || cnt1 < rcnt1) {
+        out(-1);
+        return;
+    }    
+
+    out(rcnt0 + rcnt1);
 }
 
 signed main() {
